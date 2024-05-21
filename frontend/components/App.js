@@ -3,62 +3,68 @@ import Form   from './Form'
 import TodoList from './TodoList';
 
 
+let id = 0; 
+const getId = () => id++; 
+
+const initToDos = [
+  {name: 'Learn JavaScript',
+    id: getId(), 
+    completed: false},
+  {name: 'Learn HTML/CSS',
+    id: getId(),
+    completed: false},
+  {name: 'Learn React',
+    id: getId(),
+    completed: false},
+  {name: 'Learn Advanced React',
+    id: getId(),
+    completed: false},
+  {name: 'Learn Back End',
+    id: getId(),
+    completed: false}
+];
+
+
 class App extends React.Component {
   constructor() {
     super()
     this.state = {
       message: 'have you done these?',
-      toDos:  [
-        {
-          name: 'Learn JavaScript',
-          id: 1, 
-          completed: false
-        },
-        {
-          name: 'Learn HTML/CSS',
-          id: 2,
-          completed: false
-        },
-        {
-          name: 'Learn React',
-          id: 3,
-          completed: false
-        },
-        {
-          name: 'Learn Advanced React',
-          id: 4,
-          completed: false
-        },
-        {
-          name: 'Learn Back End',
-          id: 5,
-          completed: false
-        }
-      ]
+      toDos:  initToDos
     };
-    console.log(this.state.toDos)
+    
   }
 
-  handleChange = event => {
-    event.preventDefault()
-    console.log(event)
-    console.log(event.target.value)
-  }
+ addTodo = (name) => {
+  this.setState({
+    ...this.state.toDos, 
+    toDos: this.state.toDos.concat({name, id: getId(), completed: false})
+  })
+}
 
-  handleSubmit = event => {
-    event.preventDefault() 
-    console.log(event)
-  }
+toggleComplete = (id) => {
+  this.setState({
+    ...this.state.toDos,
+    toDos: this.state.toDos.map(td => {
+      if(id === td.id) {
+        return {...td, completed: !td.completed}
+      }
+      return td 
+    })
+  })
+}
 
   render() {
+    console.log(this.state.toDos)
     return (
       <div>
-        <TodoList message={this.state.message} toDos={this.state.toDos}/>
-        <Form handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
+        <TodoList message={this.state.message} toDos={this.state.toDos} toggleComplete={this.toggleComplete}/>
+        <Form addTodo={this.addTodo}/>
       </div>
     )
   }
 }
+
 
 
 export default App 
