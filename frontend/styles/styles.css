@@ -83,3 +83,10 @@ ul, form {
 .todo:hover {
   cursor: pointer;
 }
+
+/* fuck it we ball */
+
+.todo-list-button {
+  margin-top: 1rem;
+}
+
